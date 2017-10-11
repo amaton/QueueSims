@@ -25,28 +25,6 @@ $subs = [
     new Sub\Subscriber($qsim)
 ];
 
-/**
- * Balancing subscribers amount
- *
- * @param $subs array of subscribers
- * @param $qsim \Plista\QueueSimsInterface to subscribe for
- * @return array of subscribers
- */
-function loadBalance($subs, $qsim)
-{
-    $empty = false;
-    foreach ($subs as $key => $subscriber) {
-        /* @var \Plista\Sub\SubInterface $subscriber */
-        if (!$empty && $subscriber->consume()) {
-            $subs[] = new Plista\Sub\Subscriber($qsim);
-        } else {
-            unset($subs[$key]);
-            $empty = true;
-        }
-    }
-    return $subs;
-}
-
 try {
     $turn = 0;
     while ($pubs = $pub->publish(

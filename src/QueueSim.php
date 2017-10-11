@@ -26,7 +26,7 @@ use Plista\Overload;
  */
 class QueueSim implements QueueSimsInterface
 {
-    const MAX_COUNT = 1000;
+    private $maximum = 1000;
 
     /**
      * Main queue
@@ -36,11 +36,20 @@ class QueueSim implements QueueSimsInterface
     private $queue = [];
 
     /**
+     * QueueSim constructor to set up maximum for this queue
+     * @param int $maximum
+     */
+    public function __construct($maximum = 1000)
+    {
+        $this->maximum = $maximum;
+    }
+
+    /**
      * @return integer maximum items in this queue amount
      */
     public function getMaxAmount()
     {
-        return self::MAX_COUNT;
+        return $this->maximum;
     }
 
     /**
@@ -53,7 +62,7 @@ class QueueSim implements QueueSimsInterface
     public function welcome(\stdClass ...$items)
     {
         $this->queue = array_merge($this->queue, $items);
-        if (count($this->queue) > self::MAX_COUNT) {
+        if (count($this->queue) > $this->maximum) {
             throw new Overload\Exception();
         }
         return count($this->queue);
