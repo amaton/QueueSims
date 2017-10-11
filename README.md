@@ -10,3 +10,12 @@ Plista\Sub\ - subscriber component;
 Plista\Sub\Consumer - consumer component for different messages types;
 
 qsims.php - main simulation component with load balancing;
+
+To install component:
+composer install
+
+To run simulation:
+php qsims.php
+
+To runt tests:
+vendor/bin/phpunit (would be installed by composer)
