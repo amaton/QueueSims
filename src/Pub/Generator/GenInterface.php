@@ -11,10 +11,7 @@
  * @link     https://www.plista.com/
  */
 
-namespace Plista\Pub;
-
-use Plista\Pub\Generator\GenInterface;
-use Plista\QueueSimsInterface;
+namespace Plista\Pub\Generator;
 
 /**
  * Interface for implementing publisher functionality
@@ -25,14 +22,13 @@ use Plista\QueueSimsInterface;
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://www.plista.com/
  */
-interface PubInterface
+interface GenInterface
 {
     /**
-     * Publish unpredictable amount of entries to the queue
+     * Generate unpredictable amount of entries for publisher
      *
-     * @param QueueSimsInterface $queue where to publish an item
-     * @param GenInterface $generator to generate publications
-     * @return integer amount of published entities
+     * @param integer $maximum amount of items to be generated
+     * @return array of stdClass items for publication
      */
-    public function publish(QueueSimsInterface $queue, GenInterface $generator);
+    public function generate($maximum);
 }

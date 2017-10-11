@@ -13,6 +13,7 @@
 
 namespace Plista\Pub;
 
+use Plista\Pub\Generator\GenInterface;
 use Plista\QueueSimsInterface;
 
 /**
@@ -24,26 +25,19 @@ use Plista\QueueSimsInterface;
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://www.plista.com/
  */
-class PhonePublisher implements PubInterface
+class Publisher implements PubInterface
 {
-    const TYPE = 'phone';
-
     /**
      * Publish unpredictable amount of entries to the queue
      *
-     * @param QueueSimsInterface $queue where to publish an item;
+     * @param QueueSimsInterface $queue where to publish an item
+     * @param GenInterface $generator to generate publications
      * @return integer amount of published entities
      */
-    public function publish(QueueSimsInterface $queue)
+    public function publish(QueueSimsInterface $queue, GenInterface $generator)
     {
-        $publications = [];
-        $itemsCount = rand(1, $queue->getMaxAmount()/5);
-        for ($i=1; $i<= $itemsCount; $i++) {
-            $publication = new \stdClass();
-            $publication->type = self::TYPE;
-            $publication->content = '+' . rand(1000000000,9999998888);
-            $publications[] = $publication;
-        }
+        $maxPubs = $queue->getMaxAmount() / 5;
+        $publications = $generator->generate($maxPubs);
         $queue->welcome(...$publications);
         return count($publications);
     }

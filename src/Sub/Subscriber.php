@@ -16,7 +16,7 @@ namespace Plista\Sub;
 use Plista\QueueSimsInterface;
 
 
-class PhoneSubscriber implements SubInterface
+class Subscriber implements SubInterface
 {
     /* @var QueueSimsInterface to consume items from */
     private $queue;
@@ -41,7 +41,7 @@ class PhoneSubscriber implements SubInterface
         /* @var \stdClass $item */
         if ($item = $this->queue->serve())
         {
-            echo 'Phone number ' . $item->content . ' served and observed' . PHP_EOL;
+            echo $item->type . ' ' . $item->content . ' served and observed' . PHP_EOL;
             return true;
         } else {
             echo 'Queue is empty' . PHP_EOL;

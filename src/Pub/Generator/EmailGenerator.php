@@ -11,9 +11,8 @@
  * @link     https://www.plista.com/
  */
 
-namespace Plista\Pub;
+namespace Plista\Pub\Generator;
 
-use Plista\QueueSimsInterface;
 
 /**
  * Interface for implementing publisher functionality
@@ -24,28 +23,27 @@ use Plista\QueueSimsInterface;
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://www.plista.com/
  */
-class EmailPublisher implements PubInterface
+class EmailGenerator implements GenInterface
 {
     const TYPE = 'email';
 
     /**
-     * Publish unpredictable amount of entries to the queue
+     * Generate unpredictable amount of entries for publisher
      *
-     * @param QueueSimsInterface $queue where to publish an item;
-     * @return integer amount of published entities
+     * @param integer $maximum amount of items to be generated
+     * @return array of stdClass items for publication
      */
-    public function publish(QueueSimsInterface $queue)
+    public function generate($maximum)
     {
         $publications = [];
-        $itemsCount = rand(1, $queue->getMaxAmount()/5);
-        for ($i=1; $i<= $itemsCount; $i++) {
+        $itemsCount = rand(1, $maximum);
+        for ($i = 1; $i <= $itemsCount; $i++) {
             $publication = new \stdClass();
             $publication->type = self::TYPE;
-            $publication->content = $this->generateEmailAddress(7,5);
+            $publication->content = $this->generateEmailAddress(7, 5);
             $publications[] = $publication;
         }
-        $queue->welcome(...$publications);
-        return count($publications);
+        return $publications;
     }
 
     private final function generateEmailAddress($maxLenLocal=64, $maxLenDomain=255){
@@ -84,7 +82,7 @@ class EmailPublisher implements PubInterface
         $randomString .= ".";
 
         // GENERATE TLD: 4
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             $randomString .= $alphaNumeric[rand(0, strlen($alphaNumeric) - 1)];
         }
 

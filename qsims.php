@@ -14,18 +14,20 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 $qsim = new Plista\QueueSim();
-$pub = new Plista\Pub\EmailPublisher();
-$subs[] = new Plista\Sub\EmailSubscriber($qsim);
+$pub = new Plista\Pub\Publisher();
+$subs[] = new Plista\Sub\Subscriber($qsim);
 $turn = 0;
 try {
-    while ($pubs = $pub->publish($qsim)) {
+    while ($pubs = $pub->publish($qsim, rand(0,1) ? new \Plista\Pub\Generator\PhoneGenerator()
+                                                            : new \Plista\Pub\Generator\EmailGenerator()))
+    {
         echo '======= TURN ' . $turn . ' =======' . PHP_EOL;
         echo '>>>>>>> PUBLISHED ' . $pubs . ' ITEMS <<<<<<<' . PHP_EOL;
         $empty = false;
         foreach ($subs as $key => $subscriber) {
-            /* @var \Plista\Sub\EmailSubscriber $subscriber */
+            /* @var \Plista\Sub\Subscriber $subscriber */
             if (!$empty && $subscriber->consume()) {
-                $subs[] = new Plista\Sub\EmailSubscriber($qsim);
+                $subs[] = new Plista\Sub\Subscriber($qsim);
             } else {
                 unset($subs[$key]);
                 $empty = true;

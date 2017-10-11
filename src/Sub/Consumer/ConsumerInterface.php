@@ -11,7 +11,7 @@
  * @link     https://www.plista.com/
  */
 
-namespace Plista\Sub\Consume;
+namespace Plista\Sub\Consumer;
 
 
 /**
