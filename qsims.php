@@ -56,7 +56,7 @@ try {
     )) {
         startTurn($turn, $pubs);
         $subs = loadBalance($subs, $qsim);
-        endTurn($pubs, count($qsim->getQueue()), count($subs), $turn);
+        endTurn($pubs, $qsim->getCount(), count($subs), $turn);
         $turn++;
     }
 } catch (Plista\Overload\Exception $exception) {

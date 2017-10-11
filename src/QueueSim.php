@@ -59,9 +59,12 @@ class QueueSim implements QueueSimsInterface
         return count($this->queue);
     }
 
-    public function getQueue()
+    /**
+     * @return integer count elements in current queue
+     */
+    public function getCount()
     {
-        return $this->queue;
+        return count($this->queue);
     }
 
     /**
