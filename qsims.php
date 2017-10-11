@@ -13,34 +13,86 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+use Plista\Sub;
+use Plista\Pub;
+
 $qsim = new Plista\QueueSim();
-$pub = new Plista\Pub\Publisher();
-$subs[] = new Plista\Sub\Subscriber($qsim);
+$pub = new Pub\Publisher();
+$subs = [
+    new Sub\Subscriber($qsim),
+    new Sub\Subscriber($qsim),
+    new Sub\Subscriber($qsim),
+    new Sub\Subscriber($qsim)
+];
 $turn = 0;
-try {
-    while ($pubs = $pub->publish($qsim, rand(0,1) ? new \Plista\Pub\Generator\PhoneGenerator()
-                                                            : new \Plista\Pub\Generator\EmailGenerator()))
-    {
-        echo '======= TURN ' . $turn . ' =======' . PHP_EOL;
-        echo '>>>>>>> PUBLISHED ' . $pubs . ' ITEMS <<<<<<<' . PHP_EOL;
-        $empty = false;
-        foreach ($subs as $key => $subscriber) {
-            /* @var \Plista\Sub\SubInterface $subscriber */
-            if (!$empty && $subscriber->consume()) {
-                $subs[] = new Plista\Sub\Subscriber($qsim);
-            } else {
-                unset($subs[$key]);
-                $empty = true;
-            }
+
+/**
+ * Balancing subscribers amount
+ *
+ * @param $subs array of subscribers
+ * @param $qsim \Plista\QueueSimsInterface to subscribe for
+ * @return array of subscribers
+ */
+function loadBalance($subs, $qsim)
+{
+    $empty = false;
+    foreach ($subs as $key => $subscriber) {
+        /* @var \Plista\Sub\SubInterface $subscriber */
+        if (!$empty && $subscriber->consume()) {
+            $subs[] = new Plista\Sub\Subscriber($qsim);
+        } else {
+            unset($subs[$key]);
+            $empty = true;
         }
-        echo '<<<<<<< QUEUE STATUS ' . count($qsim->getQueue()) . ' ITEMS >>>>>>>' . PHP_EOL;
-        echo '<<<<<<< SUBSCRIBERS COUNT ' . count($subs) . ' ITEMS >>>>>>>' . PHP_EOL;
-        sleep(3); $turn++;
+    }
+    return $subs;
+}
+
+try {
+    while ($pubs = $pub->publish(
+        $qsim,
+        rand(0, 1) ? new Pub\Generator\PhoneGenerator()
+                            : new Pub\Generator\EmailGenerator()
+    )) {
+        startTurn($turn, $pubs);
+        $subs = loadBalance($subs, $qsim);
+        endTurn($pubs, count($qsim->getQueue()), count($subs), $turn);
+        $turn++;
     }
 } catch (Plista\Overload\Exception $exception) {
     echo $exception->getMessage() . PHP_EOL;
 } catch (\Exception $exception) {
-    echo $exception->getMessage() . PHP_EOL;
+    echo 'Unknown exception with message : ' . $exception->getMessage() . PHP_EOL;
 } finally {
     die('Queue simulation finished');
+}
+
+/**
+ * Print info about next turn
+ *
+ * @param $turn integer iterator
+ * @param $pubs integer with published in turn amount
+ */
+function startTurn($turn, $pubs)
+{
+    echo '======= TURN ' . $turn . ' START =======' . PHP_EOL;
+    echo '>>>>>>> NEW PUBLISHED ' . $pubs . ' ITEMS <<<<<<<' . PHP_EOL;
+}
+
+/**
+ * Print info about last turn and sleep 3 secs
+ *
+ * @param $pubs integer with published in turn amount
+ * @param $qcnt integer with queue amount
+ * @param $subs integer with subscribers amount
+ * @param $turn integer iterator
+ * @return void
+ */
+function endTurn($pubs, $qcnt, $subs, $turn)
+{
+    echo '>>>>>>> LAST PUBLISHED ' . $pubs . ' ITEMS <<<<<<<' . PHP_EOL;
+    echo '======= QUEUE STATUS ' . $qcnt . ' ITEMS =======' . PHP_EOL;
+    echo '<<<<<<< SUBSCRIBERS COUNT ' . $subs . ' ITEMS >>>>>>>' . PHP_EOL;
+    echo '======= TURN ' . $turn . ' END =======' . PHP_EOL;
+    sleep(3);
 }

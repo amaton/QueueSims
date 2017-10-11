@@ -5,14 +5,13 @@
  * PHP Version 7
  *
  * @category ConsumerInterface
- * @package  Plista\Sub
+ * @package  Plista\Sub\Consumer
  * @author   Anton Amatuni <amatonn@gmail.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Sublic License
  * @link     https://www.plista.com/
  */
 
 namespace Plista\Sub\Consumer;
-
 
 /**
  * Interface for implementing consumer functionality
@@ -26,7 +25,7 @@ namespace Plista\Sub\Consumer;
 interface ConsumerInterface
 {
     /**
-     * Consume one entry from the queue
+     * Consume one entry from subscriber
      *
      * @param  \stdClass $entry
      * @return boolean results true in case of success

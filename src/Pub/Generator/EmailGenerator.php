@@ -4,8 +4,8 @@
  *
  * PHP Version 7
  *
- * @category PubInterface
- * @package  Plista\Pub
+ * @category EmailGenerator
+ * @package  Plista\Pub\Generator
  * @author   Anton Amatuni <amatonn@gmail.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://www.plista.com/
@@ -13,12 +13,11 @@
 
 namespace Plista\Pub\Generator;
 
-
 /**
- * Interface for implementing publisher functionality
+ * Class generator for publisher functionality
  *
- * @category Interface
- * @package  PubInterface
+ * @category Class
+ * @package  EmailGenerator
  * @author   Anton Amatuni <amatonn@gmail.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://www.plista.com/
@@ -40,13 +39,23 @@ class EmailGenerator implements GenInterface
         for ($i = 1; $i <= $itemsCount; $i++) {
             $publication = new \stdClass();
             $publication->type = self::TYPE;
-            $publication->content = $this->generateEmailAddress(7, 5);
+            $publication->email = $this->generateEmailAddress(7, 5);
             $publications[] = $publication;
         }
         return $publications;
     }
 
-    private final function generateEmailAddress($maxLenLocal=64, $maxLenDomain=255){
+    /**
+     * Generate random email address with predicted length
+     *
+     * @link https://stackoverflow.com/a/40299269
+     *
+     * @param int $maxLenLocal
+     * @param int $maxLenDomain
+     * @return string
+     */
+    final private function generateEmailAddress($maxLenLocal = 64, $maxLenDomain = 255)
+    {
         $numeric        =  '0123456789';
         $alphabetic     = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
         $extras         = '.-_';

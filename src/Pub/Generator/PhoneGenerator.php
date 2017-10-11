@@ -4,8 +4,8 @@
  *
  * PHP Version 7
  *
- * @category PubInterface
- * @package  Plista\Pub
+ * @category PhoneGenerator
+ * @package  Plista\Pub\Generator
  * @author   Anton Amatuni <amatonn@gmail.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://www.plista.com/
@@ -39,7 +39,7 @@ class PhoneGenerator implements GenInterface
         for ($i = 1; $i <= $pubsCount; $i++) {
             $publication = new \stdClass();
             $publication->type = self::TYPE;
-            $publication->content = '+' . rand(1000000000, 9999998888);
+            $publication->phone = '+' . rand(1000000000, 9999998888);
             $publications[] = $publication;
         }
         return $publications;

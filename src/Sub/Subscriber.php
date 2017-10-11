@@ -16,7 +16,6 @@ namespace Plista\Sub;
 use Plista\QueueSimsInterface;
 use Plista\Sub\Consumer\ConsumerInterface;
 
-
 class Subscriber implements SubInterface
 {
     /* @var QueueSimsInterface to consume items from */
@@ -40,14 +39,14 @@ class Subscriber implements SubInterface
     public function consume()
     {
         /* @var \stdClass $item */
-        if ($item = $this->queue->serve())
-        {
+        if ($item = $this->queue->serve()) {
             /* @var ConsumerInterface $consumer */
             $consumer = Consumer\Factory::create($item->type);
             $consumeResult = $consumer->consume($item);
-            if(!$consumeResult) {
+            if (!$consumeResult) {
                 $this->queue->welcome($item);
             };
+            unset($consumer);
             return true;
         } else {
             echo 'Queue is empty' . PHP_EOL;

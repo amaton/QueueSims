@@ -26,7 +26,7 @@ use Plista\Overload;
  */
 class QueueSim implements QueueSimsInterface
 {
-    const MAX_COUNT = 888;
+    const MAX_COUNT = 1000;
 
     /**
      * Main queue

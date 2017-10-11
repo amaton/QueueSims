@@ -30,7 +30,7 @@ interface PubInterface
     /**
      * Publish unpredictable amount of entries to the queue
      *
-     * @param QueueSimsInterface $queue where to publish an item
+     * @param QueueSimsInterface $queue where to publish items
      * @param GenInterface $generator to generate publications
      * @return integer amount of published entities
      */

@@ -39,6 +39,7 @@ class Publisher implements PubInterface
         $maxPubs = $queue->getMaxAmount() / 5;
         $publications = $generator->generate($maxPubs);
         $queue->welcome(...$publications);
+        unset($generator);
         return count($publications);
     }
 }
