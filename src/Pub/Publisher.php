@@ -27,6 +27,23 @@ use Plista\QueueSimsInterface;
  */
 class Publisher implements PubInterface
 {
+    /* @var integer $minimumPublications */
+    private $minimumPublications = 1;
+    /* @var integer $maximumPublications */
+    private $maximumPublications = 100;
+
+    /**
+     * Publisher constructor.
+     *
+     * @param integer $minimum amount of items to be generated
+     * @param integer $maximum amount of items to be generated
+     */
+    public function __construct($maximumPublications = 100, $minimumPublications = 1)
+    {
+        $this->minimumPublications = $minimumPublications;
+        $this->maximumPublications = $maximumPublications;
+    }
+
     /**
      * Publish unpredictable amount of entries to the queue
      *
@@ -36,8 +53,7 @@ class Publisher implements PubInterface
      */
     public function publish(QueueSimsInterface $queue, GenInterface $generator)
     {
-        $maxPubs = $queue->getMaxAmount() / 5;
-        $publications = $generator->generate($maxPubs);
+        $publications = $generator->generate($this->maximumPublications, $this->minimumPublications);
         $queue->welcome(...$publications);
         unset($generator);
         return count($publications);

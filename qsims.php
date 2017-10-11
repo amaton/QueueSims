@@ -17,14 +17,13 @@ use Plista\Sub;
 use Plista\Pub;
 
 $qsim = new Plista\QueueSim();
-$pub = new Pub\Publisher();
+$pub = new Pub\Publisher($qsim->getMaxAmount()/5);
 $subs = [
     new Sub\Subscriber($qsim),
     new Sub\Subscriber($qsim),
     new Sub\Subscriber($qsim),
     new Sub\Subscriber($qsim)
 ];
-$turn = 0;
 
 /**
  * Balancing subscribers amount
@@ -49,13 +48,14 @@ function loadBalance($subs, $qsim)
 }
 
 try {
+    $turn = 0;
     while ($pubs = $pub->publish(
         $qsim,
         rand(0, 1) ? new Pub\Generator\PhoneGenerator()
                             : new Pub\Generator\EmailGenerator()
     )) {
         startTurn($turn, $pubs);
-        $subs = loadBalance($subs, $qsim);
+        $subs = Plista\ConsumingLoadBalancer::loadBalance($qsim, ...$subs);
         endTurn($pubs, $qsim->getCount(), count($subs), $turn);
         $turn++;
     }

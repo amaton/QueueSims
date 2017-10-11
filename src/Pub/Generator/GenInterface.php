@@ -30,5 +30,5 @@ interface GenInterface
      * @param integer $maximum amount of items to be generated
      * @return array of \stdClass items for publication
      */
-    public function generate($maximum);
+    public function generate($maximum, $minimum);
 }

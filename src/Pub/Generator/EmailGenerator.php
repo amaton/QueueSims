@@ -30,12 +30,14 @@ class EmailGenerator implements GenInterface
      * Generate unpredictable amount of entries for publisher
      *
      * @param integer $maximum amount of items to be generated
+     * @param integer $minimum amount of items to be generated
+     *
      * @return array of stdClass items for publication
      */
-    public function generate($maximum)
+    public function generate($maximum, $minimum = 1)
     {
         $publications = [];
-        $itemsCount = rand(1, $maximum);
+        $itemsCount = rand($minimum, $maximum);
         for ($i = 1; $i <= $itemsCount; $i++) {
             $publication = new \stdClass();
             $publication->type = self::TYPE;
@@ -57,7 +59,7 @@ class EmailGenerator implements GenInterface
     final private function generateEmailAddress($maxLenLocal = 64, $maxLenDomain = 255)
     {
         $numeric        =  '0123456789';
-        $alphabetic     = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        $alphabetic     = 'abcdefghijklmnopqrstuvwxyz';
         $extras         = '.-_';
         $all            = $numeric . $alphabetic . $extras;
         $alphaNumeric   = $alphabetic . $numeric;
@@ -67,8 +69,8 @@ class EmailGenerator implements GenInterface
         for ($i = 0; $i < 4; $i++) {
             $randomString .= $alphabetic[rand(0, strlen($alphabetic) - 1)];
         }
-        // GENERATE A NUMBER BETWEEN 20 & 60
-        $rndNum         = rand(20, $maxLenLocal-4);
+        // GENERATE A NUMBER BETWEEN 3 & $maxLenLocal-4
+        $rndNum         = rand(3, $maxLenLocal);
 
         for ($i = 0; $i < $rndNum; $i++) {
             $randomString .= $all[rand(0, strlen($all) - 1)];
