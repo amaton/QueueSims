@@ -1,0 +1,21 @@
+{
+    "name": "root/plista",
+    "description": "Queueing simulation system;",
+    "type": "coding-challenge",
+    "license": "free",
+    "authors": [
+        {
+            "name": "Amatuni Anton",
+            "email": "amatonn@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Plista\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.6"
+    }
+}
