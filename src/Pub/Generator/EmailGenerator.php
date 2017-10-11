@@ -25,7 +25,7 @@ namespace Plista\Pub\Generator;
  */
 class EmailGenerator implements GenInterface
 {
-    const TYPE = 'email';
+    const TYPE = 'Email';
 
     /**
      * Generate unpredictable amount of entries for publisher

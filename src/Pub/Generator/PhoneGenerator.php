@@ -24,7 +24,7 @@ namespace Plista\Pub\Generator;
  */
 class PhoneGenerator implements GenInterface
 {
-    const TYPE = 'phone';
+    const TYPE = 'Phone';
 
     /**
      * Generate unpredictable amount of entries for publisher

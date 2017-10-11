@@ -28,7 +28,8 @@ interface ConsumerInterface
     /**
      * Consume one entry from the queue
      *
-     * @return void
+     * @param  \stdClass $entry
+     * @return boolean results true in case of success
      */
-    public function consume();
+    public function consume($entry);
 }

@@ -37,7 +37,7 @@ interface SubInterface
     /**
      * Consume one entry from the queue
      *
-     * @return void
+     * @return boolean results true in case of success or false in case of empty queue
      */
     public function consume();
 }

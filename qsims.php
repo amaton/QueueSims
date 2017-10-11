@@ -25,7 +25,7 @@ try {
         echo '>>>>>>> PUBLISHED ' . $pubs . ' ITEMS <<<<<<<' . PHP_EOL;
         $empty = false;
         foreach ($subs as $key => $subscriber) {
-            /* @var \Plista\Sub\Subscriber $subscriber */
+            /* @var \Plista\Sub\SubInterface $subscriber */
             if (!$empty && $subscriber->consume()) {
                 $subs[] = new Plista\Sub\Subscriber($qsim);
             } else {
@@ -38,6 +38,8 @@ try {
         sleep(3); $turn++;
     }
 } catch (Plista\Overload\Exception $exception) {
+    echo $exception->getMessage() . PHP_EOL;
+} catch (\Exception $exception) {
     echo $exception->getMessage() . PHP_EOL;
 } finally {
     die('Queue simulation finished');
