@@ -107,6 +107,22 @@ class QueueSimsTest extends TestCase
         }
         self::assertEquals($subscribersAmount, count($this->subscribers));
     }
+    /**
+     * Test Queue simulation with emails
+     *
+     * @param integer subscribersAmount
+     * @param integer $queueAmount amount
+     **/
+    public function testQueueSimDecrease()
+    {
+        $publisher = new Pub\Publisher(25, 25);
+        $publisher->publish($this->queue, new Pub\Generator\EmailGenerator());
+        for ($i = 0; $i < 5; $i++) {
+            $this->subscribers = ConsumingLoadBalancer::loadBalance($this->queue, ...$this->subscribers);
+        }
+        self::assertEquals(20, count($this->subscribers));
+        self::assertEquals(0, $this->queue->getCount());
+    }
 
     /**
      * Provide input / output data

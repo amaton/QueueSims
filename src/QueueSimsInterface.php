@@ -41,6 +41,11 @@ interface QueueSimsInterface
     public function serve();
 
     /**
+     * @return integer count elements in current queue
+     */
+    public function getCount();
+
+    /**
      * @return integer maximum items in this queue amount
      */
     public function getMaxAmount();
