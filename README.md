@@ -4,10 +4,10 @@ Plista CodingChallenge - small example of architecture which simulates queue of 
 Plista\QueueSim - main queue component;
 
 Plista\ConsumingLoadBalancer - example of LB implementation using antifragile methodology
-(https://en.wikipedia.org/wiki/Antifragility) by adding aditional subscriber after each other successful consume
+(https://en.wikipedia.org/wiki/Antifragility) with additional subscriber after each other successful consume
 and removing all extra ones ones queue is empty.
 That means that on very start of simulation subscribers amount will growth exponentially till queue is run out;
-Most of the rest cases system will have empty queue and and double more subscribers then messages was publishhed this turn;
+Most of the rest cases system will have empty queue and double more subscribers then messages was published this turn;
 
 Plista\Pub\ - publisher component to publish unpredictable amount of items to the queue
 (you can set up  min and max in constructor);
@@ -29,4 +29,5 @@ php qsims.php
 
 To runt tests:
 
-vendor/bin/phpunit (would be installed by composer)
+vendor/bin/phpunit
+(would be installed by composer)
