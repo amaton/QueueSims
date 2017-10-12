@@ -27,7 +27,8 @@ use Plista\Sub;
 class ConsumingLoadBalancer implements LbInterface
 {
     /**
-     * Balancing subscribers amount
+     * Balancing subscribers amount by adding a new one on each successful consume
+     * and removing rest once queue is empty
      *
      * @param $queue QueueSimsInterface to subscribe for
      * @param $subscribers ...Sub\SubInterface collection of subscribers
@@ -40,8 +41,10 @@ class ConsumingLoadBalancer implements LbInterface
         foreach ($subscribers as $key => $subscriber) {
             /* @var \Plista\Sub\SubInterface $subscriber */
             if (!$empty && $subscriber->consume()) {
+                //While queue is not empty we add one more subscriber
                 $subscribers[] = new Sub\Subscriber($queue);
             } else {
+                //Once it is empty - remove rest subscribers
                 unset($subscribers[$key]);
                 $empty = true;
             }
