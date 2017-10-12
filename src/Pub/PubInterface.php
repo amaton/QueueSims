@@ -32,6 +32,7 @@ interface PubInterface
      *
      * @param QueueSimsInterface $queue where to publish items
      * @param GenInterface $generator to generate publications
+     *
      * @return integer amount of published entities
      */
     public function publish(QueueSimsInterface $queue, GenInterface $generator);

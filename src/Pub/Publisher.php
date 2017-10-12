@@ -49,6 +49,7 @@ class Publisher implements PubInterface
      *
      * @param QueueSimsInterface $queue where to publish an item
      * @param GenInterface $generator to generate publications
+     *
      * @return integer amount of published entities
      */
     public function publish(QueueSimsInterface $queue, GenInterface $generator)

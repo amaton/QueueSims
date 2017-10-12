@@ -24,7 +24,9 @@ class Subscriber implements SubInterface
     /**
      * Subscribe to the queue
      *
-     * @param $queue QueueSimsInterface to _construct for
+     * @param $queue QueueSimsInterface to subscribe for
+     *
+     * @return $this
      */
     public function __construct(QueueSimsInterface $queue)
     {

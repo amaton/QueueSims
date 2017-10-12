@@ -4,32 +4,37 @@
  *
  * PHP Version 7
  *
- * @category ConsumerInterface
- * @package  Plista\Sub\Consumer
+ * @category SubInterface
+ * @package  Plista\Sub
  * @author   Anton Amatuni <amatonn@gmail.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Sublic License
  * @link     https://www.plista.com/
  */
 
-namespace Plista\Sub\Consumer;
+namespace Plista\Sub;
+
+use Plista\QueueSimsInterface;
 
 /**
- * Interface for implementing consumer functionality
+ * Sub\Factory creates subscriber
  *
- * @category Interface
- * @package  ConsumerInterface
+ * @category Class
+ * @package  Factory
  * @author   Anton Amatuni <amatonn@gmail.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Sublic License
  * @link     https://www.plista.com/
  */
-interface ConsumerInterface
+class Factory
 {
     /**
-     * Consume one entry from subscriber
+     * Creates one consumer object depends on item type
      *
-     * @param  \stdClass $entry
+     * @param $queue QueueSimsInterface to _construct for
      *
-     * @return boolean results true in case of success
+     * @return SubInterface
      */
-    public function consume($entry);
+    public static function create(QueueSimsInterface $queue)
+    {
+        return new Subscriber($queue);
+    }
 }

@@ -54,6 +54,7 @@ class EmailGenerator implements GenInterface
      *
      * @param int $maxLenLocal
      * @param int $maxLenDomain
+     *
      * @return string
      */
     final private function generateEmailAddress($maxLenLocal = 64, $maxLenDomain = 255)

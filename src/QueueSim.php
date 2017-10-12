@@ -37,6 +37,7 @@ class QueueSim implements QueueSimsInterface
 
     /**
      * QueueSim constructor to set up maximum for this queue
+     *
      * @param int $maximum
      */
     public function __construct($maximum = 1000)
@@ -57,6 +58,7 @@ class QueueSim implements QueueSimsInterface
      *
      * @param \stdClass[] ...$items or several ones incoming queue items
      * @throws Overload\Exception
+     *
      * @return integer amount of queue items
      */
     public function welcome(\stdClass ...$items)

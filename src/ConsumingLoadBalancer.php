@@ -42,7 +42,7 @@ class ConsumingLoadBalancer implements LbInterface
             /* @var \Plista\Sub\SubInterface $subscriber */
             if (!$empty && $subscriber->consume()) {
                 //While queue is not empty we add one more subscriber
-                $subscribers[] = new Sub\Subscriber($queue);
+                $subscribers[] = Sub\Factory::create($queue);
             } else {
                 //Once it is empty - remove rest subscribers
                 unset($subscribers[$key]);

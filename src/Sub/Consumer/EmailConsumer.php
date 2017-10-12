@@ -28,6 +28,7 @@ class EmailConsumer implements ConsumerInterface
      * Consume one email from publisher to show out
      *
      * @param $email \stdClass to be observed
+     *
      * @return boolean result
      */
     public function consume($email)

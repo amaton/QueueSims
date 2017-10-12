@@ -28,6 +28,7 @@ class PhoneConsumer implements ConsumerInterface
      * Consume one phone to show out
      *
      * @param $phone \stdClass to be observed
+     *
      * @return boolean result
      */
     public function consume($phone)
