@@ -12,6 +12,7 @@
  */
 
 namespace Plista\Sub\Consumer;
+use Plista\Pub\Generator\PhoneGenerator;
 
 /**
  * Consumer\Factory creates consumer depends on queue item type
@@ -29,11 +30,15 @@ class Factory
      *
      * @param integer $type
      *
-     * @return ConsumerInterface
+     * @return ConsumerInterface | boolean false if consumer not found
      */
     public static function create($type)
     {
         $consumerClass = 'Plista\\Sub\\Consumer\\' . $type.'Consumer';
-        return new $consumerClass();
+        if (class_exists($consumerClass)) {
+            return new $consumerClass();
+        }
+
+        return  false;
     }
 }

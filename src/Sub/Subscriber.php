@@ -44,7 +44,7 @@ class Subscriber implements SubInterface
         if ($item = $this->queue->serve()) {
             /* @var ConsumerInterface $consumer */
             $consumer = Consumer\Factory::create($item->type);
-            $consumeResult = $consumer->consume($item);
+            $consumeResult = $consumer ? $consumer->consume($item) : false;
             if (!$consumeResult) {
                 $this->queue->welcome($item);
             };
