@@ -1,5 +1,6 @@
 # QueueSims
-Plista CodingChallenge - small example of architecture which simulates queue of incoming email and phones items;
+Plista CodingChallenge - small example of architecture which simulates queue of incoming email and phones items
+(https://gist.github.com/philipphoffmann/81eec90c03269c44b06695ab969b1426);
 
 Plista\QueueSim - main queue component;
 
