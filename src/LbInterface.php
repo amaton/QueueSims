@@ -30,9 +30,10 @@ interface LbInterface
      * Balancing subscribers amount
      *
      * @param $qsim QueueSimsInterface to subscribe for
+     * @param $minSubscribers integer amount of minimum active subscribers
      * @param $subs ...Sub\SubInterface collection of subscribers
      *
      * @return array of subscribers
      */
-    public static function loadBalance(QueueSimsInterface $queue, Sub\SubInterface ...$subscribers);
+    public static function loadBalance(QueueSimsInterface $queue, $minSubscribers,  Sub\SubInterface ...$subscribers);
 }

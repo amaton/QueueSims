@@ -85,7 +85,7 @@ class QueueSimsTest extends TestCase
         $publisher = new Pub\Publisher($this->queue->getMaxAmount()/10, $this->queue->getMaxAmount()/10);
         for ($i = 0; $i < $turns; $i++) {
             $publisher->publish($this->queue, new Pub\Generator\PhoneGenerator());
-            $this->subscribers = ConsumingLoadBalancer::loadBalance($this->queue, ...$this->subscribers);
+            $this->subscribers = ConsumingLoadBalancer::loadBalance($this->queue, 1, ...$this->subscribers);
         }
         self::assertEquals($subscribersAmount, count($this->subscribers));
     }
@@ -103,7 +103,7 @@ class QueueSimsTest extends TestCase
         $publisher = new Pub\Publisher($this->queue->getMaxAmount()/10, $this->queue->getMaxAmount()/10);
         for ($i = 0; $i < $turns; $i++) {
             $publisher->publish($this->queue, new Pub\Generator\EmailGenerator());
-            $this->subscribers = ConsumingLoadBalancer::loadBalance($this->queue, ...$this->subscribers);
+            $this->subscribers = ConsumingLoadBalancer::loadBalance($this->queue, 1, ...$this->subscribers);
         }
         self::assertEquals($subscribersAmount, count($this->subscribers));
     }
@@ -118,7 +118,7 @@ class QueueSimsTest extends TestCase
         $publisher = new Pub\Publisher(25, 25);
         $publisher->publish($this->queue, new Pub\Generator\EmailGenerator());
         for ($i = 0; $i < 5; $i++) {
-            $this->subscribers = ConsumingLoadBalancer::loadBalance($this->queue, ...$this->subscribers);
+            $this->subscribers = ConsumingLoadBalancer::loadBalance($this->queue, 1, ...$this->subscribers);
         }
         self::assertEquals(20, count($this->subscribers));
         self::assertEquals(0, $this->queue->getCount());

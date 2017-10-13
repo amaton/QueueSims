@@ -31,11 +31,12 @@ class ConsumingLoadBalancer implements LbInterface
      * and removing rest once queue is empty
      *
      * @param $queue QueueSimsInterface to subscribe for
+     * @param $minSubscribers integer amount of minimum active subscribers
      * @param $subscribers ...Sub\SubInterface collection of subscribers
      *
      * @return array of subscribers
      */
-    public static function loadBalance(QueueSimsInterface $queue, Sub\SubInterface ...$subscribers)
+    public static function loadBalance(QueueSimsInterface $queue, $minSubscribers,  Sub\SubInterface ...$subscribers)
     {
         $empty = false;
         foreach ($subscribers as $key => $subscriber) {
@@ -43,7 +44,7 @@ class ConsumingLoadBalancer implements LbInterface
             if (!$empty && $subscriber->consume()) {
                 //While queue is not empty we add one more subscriber
                 $subscribers[] = Sub\Factory::create($queue);
-            } else {
+            } else if (count($subscribers) > $minSubscribers) {
                 //Once it is empty - remove rest subscribers
                 unset($subscribers[$key]);
                 $empty = true;

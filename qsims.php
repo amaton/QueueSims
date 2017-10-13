@@ -16,8 +16,13 @@ require_once __DIR__ . '/vendor/autoload.php';
 use Plista\Sub;
 use Plista\Pub;
 
+//Init Queue simulation
 $qsim = new Plista\QueueSim();
+
+//Init publisher
 $pub = new Pub\Publisher($qsim->getMaxAmount()/5);
+
+//Initial subscribers
 $subs = [
     new Sub\Subscriber($qsim),
     new Sub\Subscriber($qsim),
@@ -27,14 +32,16 @@ $subs = [
 
 try {
     $turn = 0;
+    //Fo each turn it will publish random amount of emails or phones
     while ($pubs = $pub->publish(
         $qsim,
         rand(0, 1) ? new Pub\Generator\PhoneGenerator()
                             : new Pub\Generator\EmailGenerator()
     )) {
-        startTurn($turn, $pubs);
-        $subs = Plista\ConsumingLoadBalancer::loadBalance($qsim, ...$subs);
-        endTurn($pubs, $qsim->getCount(), count($subs), $turn);
+        startTurn($turn, $pubs); //Show info for turn start
+        //Calculate amount of subscribers for next turn bu consuming entries from queue
+        $subs = Plista\ConsumingLoadBalancer::loadBalance($qsim, 4, ...$subs);
+        endTurn($pubs, $qsim->getCount(), count($subs), $turn); // Show info on turn end and sleep 3 secs
         $turn++;
     }
 } catch (Plista\Overload\Exception $exception) {
