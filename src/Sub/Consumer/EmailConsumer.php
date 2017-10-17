@@ -33,7 +33,7 @@ class EmailConsumer implements ConsumerInterface
      */
     public function consume($email)
     {
-        if ($email->type == 'Email') {
+        if ($email->type == 'email') {
             echo sprintf('Email <%s> served and observed %s', $email->email, PHP_EOL);
             return true;
         } else {

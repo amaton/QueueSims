@@ -22,28 +22,15 @@ namespace Plista\Pub\Generator;
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://www.plista.com/
  */
-class PhoneGenerator implements GenInterface
+class PhoneGenerator extends AbstractGenerator
 {
-    const TYPE = 'Phone';
+    protected $type = 'phone';
 
     /**
-     * Generate unpredictable amount of entries for publisher
-     *
-     * @param integer $maximum amount of items to be generated
-     * @param integer $minimum amount of items to be generated
-     *
-     * @return array of stdClass items for publication
+     * @return string randomly generated phone number
      */
-    public function generate($maximum, $minimum = 1)
+    protected function genContent()
     {
-        $publications = [];
-        $pubsCount = rand($minimum, $maximum);
-        for ($i = 1; $i <= $pubsCount; $i++) {
-            $publication = new \stdClass();
-            $publication->type = self::TYPE;
-            $publication->phone = '+' . rand(1000000000, 9999998888);
-            $publications[] = $publication;
-        }
-        return $publications;
+        return '+' . rand(1000000000, 9999998888);
     }
 }

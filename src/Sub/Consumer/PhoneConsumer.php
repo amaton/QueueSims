@@ -33,7 +33,7 @@ class PhoneConsumer implements ConsumerInterface
      */
     public function consume($phone)
     {
-        if ($phone->type == 'Phone') {
+        if ($phone->type == 'phone') {
             echo sprintf('Phone <%s> served and observed %s', $phone->phone, PHP_EOL);
             return true;
         } else {

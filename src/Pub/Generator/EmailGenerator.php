@@ -22,30 +22,9 @@ namespace Plista\Pub\Generator;
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     https://www.plista.com/
  */
-class EmailGenerator implements GenInterface
+class EmailGenerator extends AbstractGenerator
 {
-    const TYPE = 'Email';
-
-    /**
-     * Generate unpredictable amount of entries for publisher
-     *
-     * @param integer $maximum amount of items to be generated
-     * @param integer $minimum amount of items to be generated
-     *
-     * @return array of stdClass items for publication
-     */
-    public function generate($maximum, $minimum = 1)
-    {
-        $publications = [];
-        $itemsCount = rand($minimum, $maximum);
-        for ($i = 1; $i <= $itemsCount; $i++) {
-            $publication = new \stdClass();
-            $publication->type = self::TYPE;
-            $publication->email = $this->generateEmailAddress(7, 5);
-            $publications[] = $publication;
-        }
-        return $publications;
-    }
+    protected $type = 'email';
 
     /**
      * Generate random email address with predicted length
@@ -57,7 +36,7 @@ class EmailGenerator implements GenInterface
      *
      * @return string
      */
-    final private function generateEmailAddress($maxLenLocal = 64, $maxLenDomain = 255)
+    final protected function genContent($maxLenLocal = 7, $maxLenDomain = 5)
     {
         $numeric        =  '0123456789';
         $alphabetic     = 'abcdefghijklmnopqrstuvwxyz';

@@ -34,6 +34,7 @@ class Factory
      */
     public static function create($type)
     {
+        $type = ucfirst($type);
         $consumerClass = 'Plista\\Sub\\Consumer\\' . $type.'Consumer';
         if (class_exists($consumerClass)) {
             return new $consumerClass();
