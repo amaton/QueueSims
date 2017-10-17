@@ -17,8 +17,7 @@ Plista\Pub\Generator - generator component for different messages types;
 Plista\Sub\ - subscriber component to get and observe one item from queue;
 Plista\Sub\Consumer - consumer component for different messages types;
 
-qsims.php - main simulation component to run, it runs infinitely turn by turn, on each turn we publish some amount of records to 
-queue (from one to queueMax/5 = 1000/5 = 200) and runs some amount of subscribers, calculated with load balancer;
+qsims.php - main simulation component to run, it runs infinitely turn by turn (current highscore 1 000 000 iterations in 1 hour), on each turn we publish some amount of records to queue (from one to queueMax/5 = 1000/5 = 200) and runs some amount of subscribers, calculated with load balancer;
 
 To install component:
 
@@ -32,3 +31,8 @@ To runt tests:
 
 vendor/bin/phpunit
 (would be installed by composer)
+
+PS stats:
+
+ps -aux | grep qsim
+amaton    4598 98.0  0.2 158908 18180 pts/0    R+   12:53  58:52 php qsims.php
